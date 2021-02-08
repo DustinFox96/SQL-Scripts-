@@ -55,9 +55,8 @@ foreign key (userId) references users(id)
 );
 
 insert into Request (description, justification, dateNeeded, userID)
-			values ('1st request', 'just because', '2021-03-01', 
-						(select id from users where username = "sa" ) );
-                        
+			values ('1st request', 'just because', '2021-03-01', (select id from users where username = "sa" ) ),
+                      ('2nd request', 'because I say so',  '2021-03-01', (select id from users where username = 'sa'));  
 create table Products (
 id int not null primary key auto_increment,
 PartNumber varchar(30) not null unique,
@@ -69,7 +68,8 @@ vendorId int not null,
 foreign key (vendorId) references vendors(id)
 );
 		insert into products (PartNumber, Name, Price, Unit, vendorId)
-					values ('ECHO', 'Echo', 40, 'each', 1);
+					values ('ECHO', 'Echo', 40, 'each', 1),
+							('ECHODOT', 'Echo Dot', 15, 'each', 1);
                     
 create table LineItem (
 id int not null primary key auto_increment,
@@ -82,7 +82,7 @@ constraint requestId_productId unique (requestId, ProductsId)
 );
 
 Insert into LineItem (requestId, productsId, quantity)
-			values ( (select id from request where id = 1), (select id from products where partNumber = 'ECHO'), 3);
-					
+			values ((select id from request where id = 1), (select id from products where partNumber = 'ECHO'), 3),
+					(( select id from request where id = 1), ( select id from products where partNumber = 'ECHODOT'), 5);
 					
 					
